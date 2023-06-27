@@ -3,10 +3,10 @@ use std::{sync::Arc, time::Duration, u8};
 use libusb::{self, Context, Device, DeviceHandle};
 
 enum Style {
-    STATIC = 0x01,
-    BREATHE = 0x02,
-    WAVE = 0x03,
-    FLASH = 0x12,
+    Static = 0x01,
+    Breathe = 0x02,
+    Wave = 0x03,
+    Flash = 0x12,
 }
 
 #[derive(Clone, Copy)]
@@ -17,19 +17,19 @@ struct Color {
 }
 
 enum Brightness {
-    OFF = 0x0,
-    VERY_DIM = 0x08,
-    DIM = 0x16,
-    BRIGHT = 0x24,
-    VERY_BRIGHT = 0x32,
+    Off = 0x0,
+    VeryDim = 0x08,
+    Dim = 0x16,
+    Bright = 0x24,
+    VeryBright = 0x32,
 }
 
 enum Speed {
-    VERY_SLOW = 0x0a,
-    SLOW = 0x07,
-    MEDIUM = 0x05,
-    FAST = 0x03,
-    VERY_FAST = 0x01,
+    VerySlow = 0x0a,
+    Slow = 0x07,
+    Medium = 0x05,
+    Fast = 0x03,
+    VeryFast = 0x01,
 }
 
 fn main() {
@@ -43,11 +43,13 @@ fn main() {
 
     let color: Color = Color {
         red: 0,
-        green: 255,
-        blue: 0,
+        green: 100,
+        blue: 100,
     };
 
-    set_mono_color(&device, color, Brightness::VERY_BRIGHT);
+    // let colors = vec![color; 7];
+
+    set_mono_color(&device, color, Brightness::VeryBright);
 }
 
 fn get_keyboard(context: &Context) -> Result<Arc<Device>, String> {
@@ -92,7 +94,7 @@ fn set_static_style(handle: &DeviceHandle, colors: &Vec<Color>, brightness: Brig
     let msg = vec![
         0x08,
         0x02,
-        Style::STATIC as u8,
+        Style::Static as u8,
         0x00,
         brightness as u8,
         0x08,
@@ -115,7 +117,7 @@ fn set_wave_style(
         vec![
             0x08,
             0x02,
-            Style::WAVE as u8,
+            Style::Wave as u8,
             speed as u8,
             brightness as u8,
             0x08,
@@ -138,7 +140,7 @@ fn set_breathe_style(
         vec![
             0x08,
             0x02,
-            Style::BREATHE as u8,
+            Style::Breathe as u8,
             speed as u8,
             brightness as u8,
             0x08,
@@ -161,7 +163,7 @@ fn set_flash_style(
         vec![
             0x08,
             0x02,
-            Style::FLASH as u8,
+            Style::Flash as u8,
             speed as u8,
             brightness as u8,
             0x08,
