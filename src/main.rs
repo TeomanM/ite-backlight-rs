@@ -102,6 +102,12 @@ fn set_static_style(handle: &DeviceHandle, colors: &Vec<Color>, brightness: Brig
     transfer_message(handle, msg)
 }
 
+fn set_wave_style(handle: &DeviceHandle, colors: &Vec<Color>, speed: Speed, brightness: Brightness) {
+    set_color_palette(handle, colors);
+
+    transfer_message(handle, vec![0x08, 0x02, Style::WAVE as u8, speed as u8, brightness as u8, 0x08, 0x00, 0x01]);
+}
+
 fn set_mono_color(handle: &DeviceHandle, color: Color, brightness: Brightness) {
     set_static_style(handle, &vec![color, color, color, color], brightness)
 }
